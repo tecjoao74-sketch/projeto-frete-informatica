@@ -1,49 +1,61 @@
-import requests
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Frete PE</title>
+</head>
 
-def buscar_endereco(cep):
-    url = f"https://viacep.com.br/ws/{cep}/json/"
-    response = requests.get(url)
+<body>
 
-    if response.status_code != 200:
-        print("Erro ao consultar API")
-        return None
+<h2>Consulta de Frete</h2>
 
-    data = response.json()
+<label>Digite o CEP:</label>
+<input type="text" id="cep">
+<button onclick="buscarCEP()">Buscar</button>
 
-    if "erro" in data:
-        print("CEP não encontrado")
-        return None
+<h3 id="endereco"></h3>
+<h3 id="frete"></h3>
 
-    return data
+<script>
 
+async function buscarCEP() {
 
-def calcular_frete(cidade, estado):
+    let cep = document.getElementById("cep").value
 
-    if estado != "PE":
-        return "Não realizamos entregas para este estado."
+    let url = "https://viacep.com.br/ws/" + cep + "/json/"
 
-    if cidade.lower() == "jaboatão dos guararapes":
-        return "Frete grátis!"
+    let resposta = await fetch(url)
+    let dados = await resposta.json()
 
-    return "Frete: R$ 10,00"
+    if(dados.erro){
+        alert("CEP não encontrado")
+        return
+    }
 
+    let cidade = dados.localidade
+    let estado = dados.uf
+    let rua = dados.logradouro
 
-cep = input("Digite o CEP: ")
+    document.getElementById("endereco").innerHTML =
+    "Cidade: " + cidade + "<br>Estado: " + estado + "<br>Rua: " + rua
 
-endereco = buscar_endereco(cep)
+    let resultado = ""
 
-if endereco:
+    if(estado != "PE"){
+        resultado = "Não realizamos entregas para este estado"
+    }
+    else if(cidade.toLowerCase() == "jaboatão dos guararapes"){
+        resultado = "Frete GRÁTIS"
+    }
+    else{
+        resultado = "Frete: R$ 10,00"
+    }
 
-    cidade = endereco["localidade"]
-    estado = endereco["uf"]
-    rua = endereco["logradouro"]
+    document.getElementById("frete").innerHTML = resultado
 
-    print("\nEndereço encontrado:")
-    print("Cidade:", cidade)
-    print("Estado:", estado)
-    print("Rua:", rua)
+}
 
-    resultado = calcular_frete(cidade, estado)
+</script>
 
-    print("\nResultado do frete:")
-    print(resultado)
+</body>
+</html>
