@@ -14,10 +14,6 @@ Sistema de cálculo de frete usando API ViaCEP.
 
 ## Como executar
 
-1. Instale a biblioteca requests:
-
-pip install requests
-
-2. Execute o programa:
-
-python frete_pe.py
+1. Baixe o projeto ou clone o repositório.
+2. Abra o arquivo `index.html` em qualquer navegador.
+3. Digite um CEP válido e veja o cálculo do frete.
