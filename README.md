@@ -8,9 +8,9 @@ Sistema de cálculo de frete usando API ViaCEP.
 - Cálculo de frete baseado na localização
 
 ## Tecnologias usadas
-- Python
+- HTML
+- JavaScript
 - API ViaCEP
-- Requests
 
 ## Como executar
 
