@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Frete PE</title>
+</head>
+
+<body>
+
+<h2>Consulta de Frete</h2>
+
+<input type="text" id="cep" placeholder="Digite o CEP">
+<button onclick="buscar()">Buscar</button>
+
+<p id="resultado"></p>
+
+<script>
+
+async function buscar(){
+
+let cep = document.getElementById("cep").value
+
+let resposta = await fetch("https://viacep.com.br/ws/"+cep+"/json/")
+let dados = await resposta.json()
+
+let cidade = dados.localidade
+let estado = dados.uf
+
+let frete = ""
+
+if(estado != "PE"){
+frete = "Não realizamos entregas para este estado"
+}
+else if(cidade.toLowerCase() == "jaboatão dos guararapes"){
+frete = "Frete GRÁTIS"
+}
+else{
+frete = "Frete: R$ 10,00"
+}
+
+document.getElementById("resultado").innerHTML =
+"Cidade: "+cidade+"<br>Estado: "+estado+"<br>"+frete
+
+}
+
+</script>
+
+</body>
+</html>
